@@ -1,0 +1,25 @@
+{
+    "name": "jateknet/proba0",
+    "version": "1.0.0",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Katona Mihály",
+            "email": "katona_mihaly@outlook.com"
+        }
+    ],
+    "require": {
+        "php": "8.1.*",
+        "ext-mbstring": "*",
+        "ext-mysqli": "*"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "3.7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "System\\": "sys/"
+        }
+    }
+}
