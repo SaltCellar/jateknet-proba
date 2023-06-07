@@ -1,0 +1,25 @@
+[1686149384][2023-06-07 02:49:44]
+GET https://api.test/products/1657047/?auth=0a2d364cfd3d9c5d87bbfed711e14818
+[CONNECTION ERROR]
+[1686149384][2023-06-07 02:49:44]
+GET https://api.test/categories/345/?auth=0a2d364cfd3d9c5d87bbfed711e14818
+[CONNECTION ERROR]
+[1686149384][2023-06-07 02:49:44]
+GET https://api.test/products/1657047/?auth=0a2d364cfd3d9c5d87bbfed711e14818
+[CONNECTION ERROR]
+[1686149384][2023-06-07 02:49:44]
+GET https://api.test/categories/345/?auth=0a2d364cfd3d9c5d87bbfed711e14818
+[CONNECTION ERROR]
+[1686149420][2023-06-07 02:50:20]
+GET https://api.test/products/1657047/?auth=0a2d364cfd3d9c5d87bbfed711e14818
+{"result":{"name":"Product Name...","desc":"Product Desc...","price":1400}}
+[1686149420][2023-06-07 02:50:20]
+GET https://api.test/categories/345/?auth=0a2d364cfd3d9c5d87bbfed711e14818
+{"result":{"name":"Category Name...","desc":"Category Desc..."}}
+[1686149420][2023-06-07 02:50:20]
+GET https://api.test/products/1657047/?auth=0a2d364cfd3d9c5d87bbfed711e14818
+{"result":{"name":"Product Name...","desc":"Product Desc...","price":1400}}
+[1686149420][2023-06-07 02:50:20]
+GET https://api.test/categories/345/?auth=0a2d364cfd3d9c5d87bbfed711e14818
+{"result":{"name":"Category Name...","desc":"Category Desc..."}}
+

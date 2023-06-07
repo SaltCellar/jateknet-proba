@@ -13,14 +13,18 @@ class Connection
 
     public static function send(string $method, string $path): ?array
     {
-        return self::getInstance()->execute_send($method, $path);
+        if (TEST_CONNECTION) {
+            return self::getInstance()->execute_send_test($method, $path);
+        } else {
+            return self::getInstance()->execute_send($method, $path);
+        }
     }
 
     /* -------------------------------------------------------------------------------------------------------------- */
     /* Curl */
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    private function execute_send(string $METHOD,string $URL): ?array
+    private function execute_send(string $METHOD, string $URL): ?array
     {
         if (!in_array($METHOD, [
             self::METHOD_GET
@@ -51,6 +55,45 @@ class Connection
     }
 
     /* -------------------------------------------------------------------------------------------------------------- */
+    /* Curl Test (Response Test) */
+    /* -------------------------------------------------------------------------------------------------------------- */
+
+    private function execute_send_test(string $METHOD, string $URL): ?array
+    {
+        if (!in_array($METHOD, [self::METHOD_GET])) {
+            throw new \RuntimeException("Invalid request method selected: " . $METHOD);
+        }
+
+        $result = [];
+        if (str_starts_with($URL, "products")) {
+            $result = [
+                "result" => [
+                    "name" => "Product Name...",
+                    "desc" => "Product Desc...",
+                    "price" => 1400,
+                ],
+            ];
+        } elseif (str_starts_with($URL, "categories")) {
+            $result = [
+                "result" => [
+                    "name" => "Category Name...",
+                    "desc" => "Category Desc..."
+                ],
+            ];
+        } else {
+            $result = [
+                "error" => "Invalid path!",
+            ];
+        }
+
+        $result = json_encode($result, JSON_UNESCAPED_UNICODE);
+
+        $URL = $this->buildUrl($URL);
+        $this->log($METHOD, $URL, (is_string($result) ? $result : null));
+        return json_decode($result, true);
+    }
+
+    /* -------------------------------------------------------------------------------------------------------------- */
     /* URL & Auth */
     /* -------------------------------------------------------------------------------------------------------------- */
 
@@ -71,6 +114,7 @@ class Connection
     /* -------------------------------------------------------------------------------------------------------------- */
 
     private const LOG_ALLOWED = true;
+    private const LOG_CONTENT_NEW_LINE = "\n\r";
     private const PATH_LOG_DIR = PATH_STORAGE . DIRECTORY_SEPARATOR . "connection_logs";
 
     private function log(string $method, string $path, ?string $response): void
@@ -83,9 +127,14 @@ class Connection
         $date_stamp = strtotime(date('Y-m-d') . " " . "00:00:00");
         $log_file = self::PATH_LOG_DIR . DIRECTORY_SEPARATOR . $date_stamp . ".log";
 
-        $data = $method . " " . $path . "\n\r" . $response . "\n\r";
+        $response = is_null($response) ? ( "[CONNECTION ERROR]" ) : $response;
 
-        file_put_contents($log_file, $data, FILE_APPEND);
+        $content =
+            "[".time()."][".date('Y-m-d h:i:s')."]" . self::LOG_CONTENT_NEW_LINE.
+            $method . " " . $path . self::LOG_CONTENT_NEW_LINE.
+            $response . self::LOG_CONTENT_NEW_LINE;
+
+        file_put_contents($log_file, $content, FILE_APPEND);
     }
 
 }
